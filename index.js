@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const Contact = reuqire('./models/contact')
+const Contact = require('./models/contact')
 
 const app = express()
 app.use(express.json())
