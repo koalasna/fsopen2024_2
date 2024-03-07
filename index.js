@@ -25,14 +25,24 @@ app.get('/info', (req, res) =>
 ) */
 
 app.get('/api/contacts/:id', (req, res) => {
-    Contact.findById(req.params.id).then(contact => 
-        res.json(contact))
+    Contact.findById(req.params.id)
+        .then(contact => {
+            if(contact) 
+                res.json(contact)
+            else 
+                res.status(404).end()            
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(400).send({error: 'malformatted id'})
+        })
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
-    const id = Number(req.params.id)
-    contacts = contacts.filter(c => c.id !== id)
-    res.status(204).end()   // no content
+    Contact.findByIdAndDelete(req.params.id)
+        .then(result => 
+            res.status(204).end())
+            // tähän vielä .catch(error=>next(error))
 })
 
 app.post('/api/contacts', (req, res) => {
