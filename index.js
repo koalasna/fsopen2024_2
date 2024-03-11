@@ -12,22 +12,7 @@ app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 morgan.token('body', function (req, res) {return JSON.stringify(req.body)})
 
-const errorHandler = (error, req, res, next) => {
-    console.error(error.message)
-    if(error.name === 'CastError')
-        return res.status(400).send({ error: 'malformatted id'})
-}
- /*
- let count = 0
-const countContacts = () => {   
-    Contact.find({})
-        .then(contacts => count = contacts.length ) 
-    console.log('count: ', count)
-    return count
-} */
-
 app.get('/info',async (req,res) => {
-   // let count = countContacts()
     let count = await Contact.estimatedDocumentCount()
     console.log('count', count)
 
@@ -96,6 +81,19 @@ app.put('/api/contacts/:id', (req, res, next) => {
         .then(updatedContact => res.json(updatedContact))
         .catch(error => next(error))
 })
+
+// oikeaoppinen järjestys
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+  }
+
+app.use(unknownEndpoint)
+
+const errorHandler = (error, req, res, next) => {
+    console.error(error.message)
+    if(error.name === 'CastError')
+        return res.status(400).send({ error: 'malformatted id'})
+}
 
 app.use(errorHandler)
 
