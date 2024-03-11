@@ -17,6 +17,24 @@ const errorHandler = (error, req, res, next) => {
     if(error.name === 'CastError')
         return res.status(400).send({ error: 'malformatted id'})
 }
+ /*
+ let count = 0
+const countContacts = () => {   
+    Contact.find({})
+        .then(contacts => count = contacts.length ) 
+    console.log('count: ', count)
+    return count
+} */
+
+app.get('/info',async (req,res) => {
+   // let count = countContacts()
+    let count = await Contact.estimatedDocumentCount()
+    console.log('count', count)
+
+    res.send(`
+    <p>Phonebook has info for ${count} people</p>
+    <h2>${new Date().toString()}</h2>`)
+}) 
 
 app.get('/api/contacts', (req, res) => 
     Contact.find({})
@@ -78,7 +96,6 @@ app.put('/api/contacts/:id', (req, res, next) => {
         .then(updatedContact => res.json(updatedContact))
         .catch(error => next(error))
 })
-
 
 app.use(errorHandler)
 
