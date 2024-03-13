@@ -29,7 +29,7 @@ Contact.find({}).then(res => {
 })
 
 if(process.argv.length>3){
-    if(process.argv.length != 5){
+    if(process.argv.length !== 5){
         console.log('Invalid arguments!')
         console.log('DB password, name and contact number of a contact required')
         process.exit(1)
@@ -44,7 +44,7 @@ if(process.argv.length>3){
     contact.save().then(res => {
         console.log(`added ${process.argv[3]} ${process.argv[4]} to contacts`)
         mongoose.connection.close()
-    }) 
+    })
 }
 
 

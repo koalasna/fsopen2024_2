@@ -2,17 +2,17 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
-const url = process.env.MONGODB_URL 
+const url = process.env.MONGODB_URL
 
 console.log('connecting to  DB')
 
 mongoose.connect(url)
     .then(res => console.log('connected to MongoDB'))
     .catch(e => console.log('error conntection to MongoDB: ', e.message))
-    
+
 const contactSchema = new mongoose.Schema({
     name: {
-        type: String, 
+        type: String,
         minlength: 3,
         required: [true, 'Contact name required']
     },
